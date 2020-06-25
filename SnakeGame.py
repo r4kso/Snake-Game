@@ -31,7 +31,7 @@ level = "medium"
 # Window config
 wdw = turtle.Screen()
 wdw.title("Snake Game 2020")
-wdw.bgpic("BG.gif")						# Background image. The image always need to be in format ".gif"
+wdw.bgpic("background.gif")						# Background image. The image always need to be in format ".gif"
 #wdw.bgcolor("#F7819F")
 wdw.setup(width = 600, height = 700)	# Windows size
 wdw.tracer(0)
