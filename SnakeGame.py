@@ -7,7 +7,8 @@ TO DO LIST
 
 In queue:
 - Collider between head and first body part
-- Save highscore after execution (.xml)
+- Save highscore after execution
+- Create a main menu
 - Set different difficulties (Easy, Medium and High)
 
 Done:
@@ -16,6 +17,7 @@ Done:
 - Add speed to the snake everytime that eats an apple
 - Show "Game over" message
 - Regulate speed increase
+- Allow to use wasd and arrows to move
 '''
 
 '''
@@ -23,16 +25,25 @@ NOTES:
 - Game zone = 600 x 600
 - Speed increase: 1 ms -> -0'0025
 '''
-postpone = 0.1 						# 1 milisecond
-score = 0
+
+'''
+# Score saving
+arch = open("score.txt", "r")
+highscore = arch.readlines()
+arch.close()
+'''
+
+# General variables
 highscore = 0
+postpone = 0.1 							# 1 milisecond
+score = 0
 level = "medium"
 
 # Window config
 wdw = turtle.Screen()
 wdw.title("Snake Game 2020")
-wdw.bgpic("background.gif")						# Background image. The image always need to be in format ".gif"
-#wdw.bgcolor("#F7819F")
+wdw.bgpic("background.gif")				# Background image. The image always need to be in format ".gif"
+#wdw.bgcolor("black")
 wdw.setup(width = 600, height = 700)	# Windows size
 wdw.tracer(0)
 
@@ -117,22 +128,27 @@ def mov():
 
 # Keyboard
 wdw.listen()						# Tells the window to be listening to the keyboard
-wdw.onkeypress(up, "Up")			# Call a function if a key is pressed (function, "key")
+
+wdw.onkeypress(up, "w")				# Call a function if a key is pressed (function, "key")
+wdw.onkeypress(up, "Up")
+
+wdw.onkeypress(down, "s")
 wdw.onkeypress(down, "Down")
+
+wdw.onkeypress(left, "a")
 wdw.onkeypress(left, "Left")
+
+wdw.onkeypress(right, "d")
 wdw.onkeypress(right, "Right")
-
-
 
 
 # Principal loop
 while True:
 	wdw.update()
-
 	# Apple colides
 	if head.distance(apple) < 20:	# Check the distance between two object (the square's measure is 20 pixels)
 		# Spawn an apple in a random position
-		x = (random.randint(- 280, 280) // 20) * 20 
+		x = (random.randint(- 280, 280) // 20) * 20
 		y = (random.randint(- 300, 280) // 20) * 20
 		apple.goto(x, y)
 
@@ -144,7 +160,8 @@ while True:
 		new_bodyPart.shape("square")				# Gives to the object an square shape
 		new_bodyPart.penup()						# Eliminate the trace
 		new_bodyPart.color("#01DF3A")				# Add to the object the selected color
-		bodyParts.append(new_bodyPart)
+		bodyParts.append(new_bodyPart)				# Add to the queue the new body part
+
 
 		# Increase score
 		score += 10
