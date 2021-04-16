@@ -7,9 +7,9 @@ TO DO LIST
 
 In queue:
 - Collider between head and first body part
-- Save highscore after execution
 - Create a main menu
 - Set different difficulties (Easy, Medium and High)
+- Use json to save the scores instead of txt
 
 Done:
 - Add scoreboard
@@ -18,6 +18,7 @@ Done:
 - Show "Game over" message
 - Regulate speed increase
 - Allow to use wasd and arrows to move
+- Save highscore after execution
 '''
 
 '''
@@ -26,15 +27,17 @@ NOTES:
 - Speed increase: 1 ms -> -0'0025
 '''
 
-'''
-# Score saving
+# Score reading
 arch = open("score.txt", "r")
-highscore = arch.readlines()
+highscore = arch.readline()
+if (highscore == ''):
+	highscore = 0
+else:
+	highscore = int(highscore)
+
 arch.close()
-'''
 
 # General variables
-highscore = 0
 postpone = 0.1 							# 1 milisecond
 score = 0
 level = "medium"
@@ -126,6 +129,12 @@ def mov():
 		x = head.xcor()
 		head.setx(x + 20)
 
+# Not a really good solution
+def save():
+	arch = open("score.txt", "w");
+	arch.write(str(highscore) + "\n")
+	arch.close
+
 # Keyboard
 wdw.listen()						# Tells the window to be listening to the keyboard
 
@@ -140,7 +149,6 @@ wdw.onkeypress(left, "Left")
 
 wdw.onkeypress(right, "d")
 wdw.onkeypress(right, "Right")
-
 
 # Principal loop
 while True:
@@ -168,8 +176,12 @@ while True:
 
 		if score > highscore:
 			highscore = score
+
+		save();
+
 		text.clear()								# Erase the actual text in screen
 		text.write("Score: {}      Level: Easy      Highscore: {}".format(score, highscore), align = "center", font = ("Courier", 15, "normal"))
+
 
 	# Move snake body
 	totalBody = len(bodyParts)						# Get number of objects in the list
